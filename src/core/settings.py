@@ -107,8 +107,6 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 100,
     "UNAUTHENTICATED_USER": "accounts.models.AnonymousUser",
-    # uncomment this line to include exception code in error message
-    # "EXCEPTION_HANDLER": "core.exception_handler.exception_handler",
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
@@ -129,7 +127,7 @@ CELERY_RESULT_SERIALIZER = "json"
 
 # API docs
 SPECTACULAR_SETTINGS = {
-    "TITLE": "proper-DRF-startup",
+    "TITLE": "HexOceanTask",
     "DESCRIPTION": "My vision of proper(but not perfect) Django REST Framework application",
     "VERSION": "0.1.0",
     "LICENSE": {"name": "MIT"},

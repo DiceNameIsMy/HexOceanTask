@@ -1,5 +1,5 @@
-# proper-DRF-startup
-My vision of proper(but not perfect yet) Django REST Framework application
+# HexOceanTask
+
 
 ## Run project locally
 
@@ -11,13 +11,13 @@ Build and run image via docker-compose:
 
     pipenv run compose --build
 
-
 ## Setup for development
 
     pipenv run setup
 
 ## Run tests(after setup)
 
-    cd src/
     pipenv run compose -d pg
+    cd src/
     pipenv run pytest
+    docker kill $(docker ps -q)

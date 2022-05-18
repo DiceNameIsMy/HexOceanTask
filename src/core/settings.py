@@ -10,7 +10,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "secret_key")
 
 DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "localhost").split("|")
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "localhost|127.0.0.1").split("|")
 
 CORS_ALLOWED_ORIGINS = os.getenv("DJANGO_CORS_ALLOWED_ORIGINS", "http://localhost").split("|")
 
@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "corsheaders",
     # Local apps
     "accounts",
+    "imgstorage",
 ]
 
 MIDDLEWARE = [

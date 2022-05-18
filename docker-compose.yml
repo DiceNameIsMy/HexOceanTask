@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  api: &api
+    build:
+      context: .
+      dockerfile: compose/local/Dockerfile
+    command: bash -c "
+        ./src/manage.py migrate
+        && ./src/manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./src/:/app/src/
+    ports:
+      - 8000:8000
+    env_file:
+      - compose/local/.env
+    depends_on:
+      - redis
+      - pg
+
+  celeryworker:
+    <<: *api
+    command: bash -c "
+      cd src/
+      && celery -A core.celery worker -l info"
+    ports: []
+
+  redis:
+    image: redis:6-alpine
+    volumes:
+      - redis-data:/data
+
+  pg:
+    image: postgres:14-alpine
+    ports:
+      - 5433:5432
+    volumes:
+      - pg-data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=database
+
+volumes:
+  redis-data:
+  pg-data:

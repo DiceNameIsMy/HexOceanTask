@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  api: &api
+  api:
     build:
       context: .
       dockerfile: compose/local/Dockerfile
@@ -15,20 +15,7 @@ services:
     env_file:
       - compose/local/.env
     depends_on:
-      - redis
       - pg
-
-  celeryworker:
-    <<: *api
-    command: bash -c "
-      cd src/
-      && celery -A core.celery worker -l info"
-    ports: []
-
-  redis:
-    image: redis:6-alpine
-    volumes:
-      - redis-data:/data
 
   pg:
     image: postgres:14-alpine
@@ -42,5 +29,4 @@ services:
       - POSTGRES_DB=database
 
 volumes:
-  redis-data:
   pg-data:

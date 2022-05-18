@@ -73,11 +73,6 @@ DATABASES = {
     }
 }
 
-REDIS_HOST = os.environ.get("REDIS_HOST")
-REDIS_PORT = os.environ.get("REDIS_PORT")
-REDIS_TASK_DB = os.environ.get("REDIS_TASK_DB", "0")
-REDIS_RESULT_DB = os.environ.get("REDIS_TASK_DB", "1")
-
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
@@ -115,16 +110,6 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timezone.timedelta(days=3),
     "REFRESH_TOKEN_LIFETIME": timezone.timedelta(days=30),
 }
-
-CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_TASK_DB}"
-CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_RESULT_DB}"
-
-CELERY_TASK_TRACK_STARTED = True
-
-CELERY_TIMEZONE = TIME_ZONE
-CELERY_ACCEPT_CONTENT = ["application/json"]
-CELERY_TASK_SERIALIZER = "json"
-CELERY_RESULT_SERIALIZER = "json"
 
 # API docs
 SPECTACULAR_SETTINGS = {

@@ -1,0 +1,54 @@
+[
+{
+    "model": "imgstorage.imageresolution",
+    "pk": 1,
+    "fields": {
+        "resolution": 200
+    }
+},
+{
+    "model": "imgstorage.imageresolution",
+    "pk": 2,
+    "fields": {
+        "resolution": 400
+    }
+},
+{
+    "model": "imgstorage.accounttier",
+    "pk": 1,
+    "fields": {
+        "name": "Basic",
+        "allow_lossless_resolution": false,
+        "allow_expiring_links": false,
+        "resolutions": [
+            1
+        ]
+    }
+},
+{
+    "model": "imgstorage.accounttier",
+    "pk": 2,
+    "fields": {
+        "name": "Premium",
+        "allow_lossless_resolution": false,
+        "allow_expiring_links": false,
+        "resolutions": [
+            1,
+            2
+        ]
+    }
+},
+{
+    "model": "imgstorage.accounttier",
+    "pk": 3,
+    "fields": {
+        "name": "Enterprise",
+        "allow_lossless_resolution": true,
+        "allow_expiring_links": true,
+        "resolutions": [
+            1,
+            2
+        ]
+    }
+}
+]

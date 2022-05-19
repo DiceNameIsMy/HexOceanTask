@@ -92,7 +92,9 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
-STATICFILES_STORAGE = "storages.backends.s3boto3.S3StaticStorage"
+USE_AWS_S3_FOR_STATIFILES = os.getenv("USE_AWS_S3_FOR_STATIFILES", "False") == "True"
+if USE_AWS_S3_FOR_STATIFILES:
+    STATICFILES_STORAGE = "storages.backends.s3boto3.S3StaticStorage"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -109,7 +111,9 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timezone.timedelta(days=30),
 }
 
-DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+USE_AWS_S3_FOR_FILE_STORAGE = os.getenv("USE_AWS_S3_FOR_FILE_STORAGE", "False") == "True"
+if USE_AWS_S3_FOR_FILE_STORAGE:
+    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 # AWS credentails loaded via environment variables
 AWS_QUERYSTRING_AUTH = False

@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "drf_spectacular",
     "corsheaders",
+    "storages",
     # Local apps
     "accounts",
     "imgstorage",
@@ -91,10 +92,7 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "share", "static")
-
-MEDIA_URL = "media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "share", "media")
+STATICFILES_STORAGE = "storages.backends.s3boto3.S3StaticStorage"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -110,6 +108,12 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timezone.timedelta(days=3),
     "REFRESH_TOKEN_LIFETIME": timezone.timedelta(days=30),
 }
+
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+# AWS credentails loaded via environment variables
+AWS_QUERYSTRING_AUTH = False
+AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
 
 # API docs
 SPECTACULAR_SETTINGS = {

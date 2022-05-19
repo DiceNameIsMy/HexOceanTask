@@ -11,7 +11,7 @@ class ImageResolutionAdmin(admin.ModelAdmin):
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ("user", "image", "resolution")
+    list_display = ("user", "uuid", "resolution")
     list_filter = ("user", "resolution")
 
 

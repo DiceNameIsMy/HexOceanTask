@@ -8,9 +8,9 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-def get_upload_path(instance, filename) -> str:
+def get_upload_path(instance: "Image", filename: str) -> str:
     file_extension = filename.split(".")[-1]
-    return f"imgstore/images/{uuid.uuid4()}.{file_extension}"
+    return f"imgstore/images/{instance.uuid}.{file_extension}"
 
 
 class ImageResolution(models.Model):
@@ -40,6 +40,7 @@ class AccountTier(models.Model):
 
 class Image(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
 
     tier = models.ForeignKey(AccountTier, on_delete=models.SET_NULL, null=True, blank=True)
     resolution = models.ForeignKey(ImageResolution, on_delete=models.SET_NULL, null=True, blank=True)

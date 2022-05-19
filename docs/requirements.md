@@ -17,8 +17,8 @@ Please focus on code cleanliness and quality even if your code doesn’t meet al
 - [ ] users should be able to upload images via HTTP request
 - [ ] users should be able to list their images
 - [x] there are three bultin account tiers: Basic, Premium and Enterprise:
-- [ ] users that have "Basic" plan after uploading an image get:
-    - [ ] a link to     a thumbnail that's 200px in height
+    - [ ] users that have "Basic" plan after uploading an image get:
+        - [ ] a link to a thumbnail that's 200px in height
     - [ ] users that have "Premium" plan get:
         - [ ] a link to a thumbnail that's 200px in height
         - [ ] a link to a thumbnail that's 400px in height

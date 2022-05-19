@@ -8,5 +8,5 @@ from .views import ProfileRetrieveView
 urlpatterns = [
     path("token/", TokenObtainPairView.as_view(), name="token-obtain-pair"),
     path("token/refresh/", TokenRefreshView.as_view(), name="token-refresh"),
-    path("profile/", ProfileRetrieveView.as_view(), name="profile")
+    path("profile/", ProfileRetrieveView.as_view(), name="profile"),
 ]

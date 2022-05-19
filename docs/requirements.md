@@ -37,4 +37,4 @@ Please focus on code cleanliness and quality even if your code doesn’t meet al
 - [ ] remember about:
     - [ ] tests
     - [ ] validation
-    - [ ] performance considerations (assume there can be a lot of images and the API is frequently accessed)
+    - [x] performance considerations (assume there can be a lot of images and the API is frequently accessed)

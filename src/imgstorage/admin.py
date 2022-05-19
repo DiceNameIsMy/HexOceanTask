@@ -1,18 +1,18 @@
 from django.contrib import admin
 
-from .models import ImageResolution, AccountTier, Image
+from .models import AccountTier, ImageThumbnail, Image
 
 
-@admin.register(ImageResolution)
-class ImageResolutionAdmin(admin.ModelAdmin):
-    list_display = ["resolution"]
+@admin.register(ImageThumbnail)
+class ImageThumbnailAdmin(admin.ModelAdmin):
+    list_display = ["uuid", "image", "resolution", "original"]
     list_filter = ["resolution"]
 
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ("user", "uuid", "resolution")
-    list_filter = ("user", "resolution")
+    list_display = ("user", "uuid")
+    list_filter = ("user",)
 
 
 @admin.register(AccountTier)

@@ -13,7 +13,7 @@ RUN apt-get update && \
 WORKDIR ${APP_HOME}
 
 # install dependencies
-COPY Pipfile Pipfile.lock ${APP_HOME}/
+COPY Pipfile.lock ${APP_HOME}/
 RUN pipenv requirements --dev > ${APP_HOME}/requirements.txt && \
     pip install -r ${APP_HOME}/requirements.txt
 

@@ -17,7 +17,7 @@ RUN addgroup appgroup && useradd -g appgroup appuser && \
     chown -R appuser:appgroup $APP_HOME
 
 # install dependencies
-COPY Pipfile Pipfile.lock ${APP_HOME}/
+COPY Pipfile.lock ${APP_HOME}/
 RUN pipenv requirements > ${APP_HOME}/requirements.txt && \
     pip install -r ${APP_HOME}/requirements.txt
 

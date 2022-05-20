@@ -92,8 +92,8 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
-USE_AWS_S3_FOR_STATIFILES = os.getenv("USE_AWS_S3_FOR_STATIFILES", "False") == "True"
-if USE_AWS_S3_FOR_STATIFILES:
+USE_AWS_S3_FOR_STATICFILES = os.getenv("USE_AWS_S3_FOR_STATICFILES", "False") == "True"
+if USE_AWS_S3_FOR_STATICFILES:
     STATICFILES_STORAGE = "storages.backends.s3boto3.S3StaticStorage"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

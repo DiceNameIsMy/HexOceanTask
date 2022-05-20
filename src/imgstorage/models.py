@@ -37,7 +37,9 @@ class AccountTier(models.Model):
     def max_resolution(self) -> str:
         if self.allow_lossless_resolution:
             return "lossless"
-        return self.resolutions.order_by("-resolution")[0]
+        elif self.resolutions:
+            return f"{max(self.resolutions)}px"
+        return "none"
 
 
 class OriginalImage(models.Model):
@@ -49,7 +51,7 @@ class OriginalImage(models.Model):
         default_related_name = "images"
 
     def __str__(self) -> str:
-        return self.uuid
+        return str(self.uuid)
 
 
 class ImageThumbnail(models.Model):
@@ -63,4 +65,4 @@ class ImageThumbnail(models.Model):
         default_related_name = "thumbnails"
 
     def __str__(self) -> str:
-        return self.uuid
+        return str(self.uuid)

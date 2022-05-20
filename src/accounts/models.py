@@ -7,6 +7,8 @@ class User(AbstractUser):
         "imgstorage.AccountTier", on_delete=models.SET_NULL, null=True, blank=True
     )
 
+    # images imgstorage.OriginalImage
+
     objects: UserManager
 
 

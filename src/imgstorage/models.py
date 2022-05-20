@@ -47,6 +47,8 @@ class OriginalImage(models.Model):
     image = models.ImageField(upload_to=get_upload_path)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
+    # thumbnails imgstorage.ImageThumbnail
+
     class Meta:
         default_related_name = "images"
 

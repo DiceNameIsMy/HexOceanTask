@@ -9,12 +9,12 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-def get_thumbnail_upload_path(instance: "Image", filename: str) -> str:
+def get_thumbnail_upload_path(instance: "OriginalImage", filename: str) -> str:
     file_extension = filename.split(".")[-1]
     return f"imgstore/images/thumbnails/{instance.uuid}.{file_extension}"
 
 
-def get_upload_path(instance: "Image", filename: str) -> str:
+def get_upload_path(instance: "OriginalImage", filename: str) -> str:
     file_extension = filename.split(".")[-1]
     return f"imgstore/images/{instance.uuid}.{file_extension}"
 
@@ -40,12 +40,10 @@ class AccountTier(models.Model):
         return self.resolutions.order_by("-resolution")[0]
 
 
-class Image(models.Model):
+class OriginalImage(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     image = models.ImageField(upload_to=get_upload_path)
-
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    tier = models.ForeignKey(AccountTier, on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
         default_related_name = "images"
@@ -59,7 +57,7 @@ class ImageThumbnail(models.Model):
     image = models.ImageField(upload_to=get_thumbnail_upload_path)
 
     resolution = models.IntegerField()
-    original = models.ForeignKey("Image", on_delete=models.CASCADE)
+    original = models.ForeignKey(OriginalImage, on_delete=models.CASCADE)
 
     class Meta:
         default_related_name = "thumbnails"

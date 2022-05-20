@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import AccountTier, ImageThumbnail, Image
+from .models import AccountTier, ImageThumbnail, OriginalImage
 
 
 @admin.register(ImageThumbnail)
@@ -9,9 +9,9 @@ class ImageThumbnailAdmin(admin.ModelAdmin):
     list_filter = ["resolution"]
 
 
-@admin.register(Image)
+@admin.register(OriginalImage)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ("user", "uuid")
+    list_display = ("user", "uuid", "image")
     list_filter = ("user",)
 
 

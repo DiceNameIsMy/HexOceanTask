@@ -14,7 +14,7 @@ Please focus on code cleanliness and quality even if your code doesn’t meet al
 ## Checklist
 
 - [x] it should be possible to easily run the project. docker-compose is a plus
-- [x] users should be able to upload images via HTTP request
+- [x] users should be able to upload images via HTTP request(in PNG or JPG format)
 - [x] users should be able to list their images
 - [x] there are three bultin account tiers: Basic, Premium and Enterprise:
     - [x] users that have "Basic" plan after uploading an image get:
@@ -37,4 +37,4 @@ Please focus on code cleanliness and quality even if your code doesn’t meet al
 - [x] remember about:
     - [x] tests
     - [x] validation
-    - [ ] performance considerations (assume there can be a lot of images and the API is frequently accessed)
+    - [x] performance considerations (assume there can be a lot of images and the API is frequently accessed)

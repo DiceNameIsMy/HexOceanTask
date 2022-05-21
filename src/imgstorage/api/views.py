@@ -14,8 +14,18 @@ class UserImageListCreateView(ListCreateAPIView):
     def get_queryset(self):
         return OriginalImage.objects.filter(user=self.request.user).prefetch_related("thumbnails")
 
+    def get(self, request, *args, **kwargs):
+        """Show all owned images and thumbnails"""
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        """Add new image"""
+        return super().post(request, *args, **kwargs)
+
 
 class CreateOriginalImageExpiringLink(CreateAPIView):
+    """Create expiring link to an image"""
+
     permission_classes = (IsAuthenticated, HasAccountTier, CanAccessOriginalImage, CanCreateExpiringLink)
     serializer_class = ImageExpiringLinkSerializer
     lookup_field = "uuid"
@@ -30,6 +40,8 @@ class CreateOriginalImageExpiringLink(CreateAPIView):
 
 
 class CreateThumbnailExpiringLink(CreateAPIView):
+    """Create expiring link to a thumbnail"""
+
     permission_classes = (IsAuthenticated, HasAccountTier, CanCreateExpiringLink)
     serializer_class = ImageExpiringLinkSerializer
     lookup_field = "uuid"

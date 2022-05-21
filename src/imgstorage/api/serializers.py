@@ -76,7 +76,9 @@ class ExpiringLinkSerializer(serializers.Serializer):
 
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     image = serializers.HiddenField(default=GetFromSerializerContext("object"))
-    expiration = serializers.IntegerField(min_value=300, max_value=3000)
+    expiration = serializers.IntegerField(
+        min_value=settings.IMAGE_LINK_MIN_EXPIRATION, max_value=settings.IMAGE_LINK_MAX_EXPIRATION
+    )
     url = serializers.URLField(read_only=True)
 
     def __init__(self, *args, **kwargs):

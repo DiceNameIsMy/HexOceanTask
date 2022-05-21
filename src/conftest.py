@@ -111,6 +111,14 @@ def jpeg_image() -> ContentFile:
 
 
 @pytest.fixture
+def word_document() -> ContentFile:
+    return ContentFile(
+        name="test.jpeg",
+        content=open("imgstorage/tests/assets/word.docx", "rb").read(),
+    )
+
+
+@pytest.fixture
 def basic_user_image(user_basic_account: User, jpeg_image: ContentFile) -> OriginalImage:
     serialzier = ImageSerializer(
         data={

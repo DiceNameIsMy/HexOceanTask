@@ -7,7 +7,7 @@ services:
       dockerfile: compose/local/Dockerfile
     command: bash -c "
         ./src/manage.py migrate
-        && ./src/manage.py loaddata src/fixtures/initial_tiers.json
+        && ./src/manage.py loaddata src/fixtures/dev.json
         && ./src/manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./src/:/app/src/

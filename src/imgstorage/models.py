@@ -55,6 +55,9 @@ class OriginalImage(models.Model):
     def __str__(self) -> str:
         return str(self.uuid)
 
+    def get_image_path(self) -> str:
+        return get_upload_path(self, self.image.name)
+
 
 class ImageThumbnail(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
@@ -68,3 +71,6 @@ class ImageThumbnail(models.Model):
 
     def __str__(self) -> str:
         return str(self.uuid)
+
+    def get_image_path(self) -> str:
+        return get_thumbnail_upload_path(self, self.image.name)

@@ -13,4 +13,5 @@ class User(AbstractUser):
 
 
 class AnonymousUser(DjangoAnonymousUser):
-    pass
+    imgstore_tier = None
+    images = None

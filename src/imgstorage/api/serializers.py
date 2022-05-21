@@ -1,6 +1,7 @@
 from io import BytesIO
 
 from PIL import Image
+from django.conf import settings
 
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import InMemoryUploadedFile
@@ -32,6 +33,11 @@ class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = OriginalImage
         fields = ("id", "uuid", "image", "user", "thumbnails")
+
+    def validate_image(self, image: InMemoryUploadedFile) -> InMemoryUploadedFile:
+        if image.name.split(".")[-1] not in settings.ALLOWED_IMAGE_FORMATS:
+            raise serializers.ValidationError(f"`{image.name}` is not an image file.")
+        return image
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)

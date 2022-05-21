@@ -110,23 +110,31 @@ def user_enterprise_account(enterprise_account_tier: AccountTier) -> User:
 @pytest.fixture
 def jpeg_image() -> ContentFile:
     return ContentFile(
-        name="test.jpeg",
-        content=open("imgstorage/tests/assets/image.jpeg", "rb").read(),
+        name="jpeg_image.jpeg",
+        content=open("imgstorage/tests/assets/jpeg_image.jpeg", "rb").read(),
+    )
+
+
+@pytest.fixture
+def png_image() -> ContentFile:
+    return ContentFile(
+        name="png_image.png",
+        content=open("imgstorage/tests/assets/png_image.png", "rb").read(),
     )
 
 
 @pytest.fixture
 def word_document() -> ContentFile:
     return ContentFile(
-        name="test.jpeg",
+        name="word.docx",
         content=open("imgstorage/tests/assets/word.docx", "rb").read(),
     )
 
 
 @pytest.fixture
-def basic_user_image(user_basic_account: User, jpeg_image: ContentFile) -> OriginalImage:
+def basic_user_image(user_basic_account: User, png_image: ContentFile) -> OriginalImage:
     serialzier = ImageSerializer(
-        data={"image": jpeg_image},
+        data={"image": png_image},
         context={"request": FakeRequest(user_basic_account)},
     )
     serialzier.is_valid(raise_exception=True)
@@ -134,9 +142,9 @@ def basic_user_image(user_basic_account: User, jpeg_image: ContentFile) -> Origi
 
 
 @pytest.fixture
-def premium_user_image(user_premium_account: User, jpeg_image: ContentFile) -> OriginalImage:
+def premium_user_image(user_premium_account: User, png_image: ContentFile) -> OriginalImage:
     serialzier = ImageSerializer(
-        data={"image": jpeg_image},
+        data={"image": png_image},
         context={"request": FakeRequest(user_premium_account)},
     )
     serialzier.is_valid(raise_exception=True)
@@ -144,9 +152,9 @@ def premium_user_image(user_premium_account: User, jpeg_image: ContentFile) -> O
 
 
 @pytest.fixture
-def enterprise_user_image(user_enterprise_account: User, jpeg_image: ContentFile) -> OriginalImage:
+def enterprise_user_image(user_enterprise_account: User, png_image: ContentFile) -> OriginalImage:
     serialzier = ImageSerializer(
-        data={"image": jpeg_image},
+        data={"image": png_image},
         context={"request": FakeRequest(user_enterprise_account)},
     )
     serialzier.is_valid(raise_exception=True)

@@ -9,6 +9,9 @@ from imgstorage.models import OriginalImage
 from imgstorage.api.serializers import ImageSerializer
 
 
+from conftest import FakeRequest
+
+
 @pytest.mark.django_db
 def test_create_image(user_basic_account: User, jpeg_image: ContentFile):
     serialzier = ImageSerializer(
@@ -19,9 +22,7 @@ def test_create_image(user_basic_account: User, jpeg_image: ContentFile):
                 content_type="image/jpeg",
             ),
         },
-        context={
-            "user": user_basic_account,
-        },
+        context={"request": FakeRequest(user_basic_account)},
     )
     serialzier.is_valid(raise_exception=True)
     image_model: OriginalImage = serialzier.save()

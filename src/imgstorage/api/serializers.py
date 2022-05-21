@@ -44,7 +44,7 @@ class AccountTierSerializer(serializers.ModelSerializer):
 
 class ImageSerializer(serializers.ModelSerializer):
     thumbnails = ImageThumbnailSerialzier(many=True, read_only=True)
-    user = serializers.HiddenField(default=CurrentUserDefault())
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
         model = OriginalImage

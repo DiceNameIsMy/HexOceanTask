@@ -12,6 +12,11 @@ from imgstorage.models import AccountTier, OriginalImage
 from imgstorage.api.serializers import ImageSerializer
 
 
+class FakeRequest:
+    def __init__(self, user) -> None:
+        self.user = user
+
+
 @pytest.fixture
 def api() -> APIClient:
     return APIClient()
@@ -121,12 +126,28 @@ def word_document() -> ContentFile:
 @pytest.fixture
 def basic_user_image(user_basic_account: User, jpeg_image: ContentFile) -> OriginalImage:
     serialzier = ImageSerializer(
-        data={
-            "image": jpeg_image,
-        },
-        context={
-            "user": user_basic_account,
-        },
+        data={"image": jpeg_image},
+        context={"request": FakeRequest(user_basic_account)},
+    )
+    serialzier.is_valid(raise_exception=True)
+    return serialzier.save()
+
+
+@pytest.fixture
+def premium_user_image(user_premium_account: User, jpeg_image: ContentFile) -> OriginalImage:
+    serialzier = ImageSerializer(
+        data={"image": jpeg_image},
+        context={"request": FakeRequest(user_premium_account)},
+    )
+    serialzier.is_valid(raise_exception=True)
+    return serialzier.save()
+
+
+@pytest.fixture
+def enterprise_user_image(user_enterprise_account: User, jpeg_image: ContentFile) -> OriginalImage:
+    serialzier = ImageSerializer(
+        data={"image": jpeg_image},
+        context={"request": FakeRequest(user_enterprise_account)},
     )
     serialzier.is_valid(raise_exception=True)
     return serialzier.save()

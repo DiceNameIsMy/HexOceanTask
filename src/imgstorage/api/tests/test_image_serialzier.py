@@ -17,7 +17,7 @@ def test_create_image(user_basic_account: User, jpeg_image: ContentFile):
     serialzier = ImageSerializer(
         data={
             "image": SimpleUploadedFile(
-                name="test.jpeg",
+                name=jpeg_image.name,
                 content=jpeg_image.read(),
                 content_type="image/jpeg",
             ),
@@ -38,3 +38,18 @@ def test_create_image(user_basic_account: User, jpeg_image: ContentFile):
     for t in thumbnails:
         assert t.image.width <= image.width
         assert t.image.height <= t.resolution
+
+
+@pytest.mark.django_db
+def test_bad_file(user_basic_account: User, word_document: ContentFile):
+    serialzier = ImageSerializer(
+        data={
+            "image": SimpleUploadedFile(
+                name=word_document.name,
+                content=word_document.read(),
+                content_type="image/jpeg",
+            ),
+        },
+        context={"request": FakeRequest(user_basic_account)},
+    )
+    assert not serialzier.is_valid()

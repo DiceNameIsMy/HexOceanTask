@@ -92,7 +92,7 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
-USE_AWS_S3_FOR_STATICFILES = os.getenv("USE_AWS_S3_FOR_STATICFILES", "False") == "True"
+USE_AWS_S3_FOR_STATICFILES: bool = os.getenv("USE_AWS_S3_FOR_STATICFILES", "False") == "True"
 if USE_AWS_S3_FOR_STATICFILES:
     STATICFILES_STORAGE = "storages.backends.s3boto3.S3StaticStorage"
 
@@ -111,7 +111,7 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timezone.timedelta(days=30),
 }
 
-USE_AWS_S3_FOR_FILE_STORAGE = os.getenv("USE_AWS_S3_FOR_FILE_STORAGE", "False") == "True"
+USE_AWS_S3_FOR_FILE_STORAGE: bool = os.getenv("USE_AWS_S3_FOR_FILE_STORAGE", "False") == "True"
 if USE_AWS_S3_FOR_FILE_STORAGE:
     DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
@@ -123,9 +123,7 @@ AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
 # API docs
 SPECTACULAR_SETTINGS = {
     "TITLE": "HexOceanTask",
-    "DESCRIPTION": "My vision of proper(but not perfect) Django REST Framework application",
+    "DESCRIPTION": "HexOcean task API",
     "VERSION": "0.1.0",
     "LICENSE": {"name": "MIT"},
-    "OAUTH2_TOKEN_URL": "/accounts/token/",
-    "OAUTH2_REFRESH_URL": "/accounts/token/refresh/",
 }

@@ -8,6 +8,7 @@ services:
     command: bash -c "
         cd src
         && ./manage.py migrate
+        && ./src/manage.py loaddata src/fixtures/initial_tiers.json
         && gunicorn core.wsgi:application -c core/gunicorn.conf.py --bind 0.0.0.0:8000"
     ports:
       - 8000:8000

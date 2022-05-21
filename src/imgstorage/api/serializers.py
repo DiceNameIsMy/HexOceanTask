@@ -7,7 +7,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from rest_framework import serializers
 
-from imgstorage.models import AccountTier, OriginalImage, ImageThumbnail
+from imgstorage.models import OriginalImage, ImageThumbnail
 from imgstorage.services.expiring_link import s3_expiring_link_client
 
 
@@ -23,17 +23,6 @@ class ImageThumbnailSerialzier(serializers.ModelSerializer):
     class Meta:
         model = ImageThumbnail
         fields = ("uuid", "image", "resolution")
-
-
-class AccountTierSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AccountTier
-        fields = (
-            "name",
-            "resolutions",
-            "allow_lossless_resolution",
-            "allow_expiring_links",
-        )
 
 
 class ImageSerializer(serializers.ModelSerializer):

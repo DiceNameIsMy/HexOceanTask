@@ -2,6 +2,7 @@ import pytest
 
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db.models.fields.files import ImageFieldFile
+from django.core.files.base import ContentFile
 
 from accounts.models import User
 from imgstorage.models import OriginalImage
@@ -9,12 +10,12 @@ from imgstorage.api.serializers import ImageSerializer
 
 
 @pytest.mark.django_db
-def test_create_image(user_basic_account: User):
+def test_create_image(user_basic_account: User, jpeg_image: ContentFile):
     serialzier = ImageSerializer(
         data={
             "image": SimpleUploadedFile(
                 name="test.jpeg",
-                content=open("imgstorage/tests/assets/test.jpeg", "rb").read(),
+                content=jpeg_image.read(),
                 content_type="image/jpeg",
             ),
         },

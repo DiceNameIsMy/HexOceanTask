@@ -3,6 +3,7 @@ import pytest
 from django.urls import reverse
 
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.core.files.base import ContentFile
 
 from rest_framework.test import APIClient
 from rest_framework.response import Response
@@ -14,11 +15,11 @@ IMAGES_LIST_URL = reverse("images-list")
 
 
 @pytest.mark.django_db
-def test_create_valid_basic(api: APIClient, authorize, user_basic_account: User):
+def test_create_valid_basic(api: APIClient, authorize, user_basic_account: User, jpeg_image: ContentFile):
     authorize(api, user_basic_account)
     data = {
         "image": SimpleUploadedFile(
-            "test.jpeg", open("imgstorage/tests/assets/test.jpeg", "rb").read(), content_type="image/jpeg"
+            "test.jpeg", jpeg_image.read(), content_type="image/jpeg"
         ),
     }
     r: Response = api.post(IMAGES_LIST_URL, data)
@@ -29,11 +30,11 @@ def test_create_valid_basic(api: APIClient, authorize, user_basic_account: User)
 
 
 @pytest.mark.django_db
-def test_create_valid_premium(api: APIClient, authorize, user_premium_account: User):
+def test_create_valid_premium(api: APIClient, authorize, user_premium_account: User, jpeg_image: ContentFile):
     authorize(api, user_premium_account)
     data = {
         "image": SimpleUploadedFile(
-            "test.jpeg", open("imgstorage/tests/assets/test.jpeg", "rb").read(), content_type="image/jpeg"
+            "test.jpeg", jpeg_image.read(), content_type="image/jpeg"
         ),
     }
     r: Response = api.post(IMAGES_LIST_URL, data)
@@ -44,11 +45,11 @@ def test_create_valid_premium(api: APIClient, authorize, user_premium_account: U
 
 
 @pytest.mark.django_db
-def test_create_valid_enterprise(api: APIClient, authorize, user_enterprise_account: User):
+def test_create_valid_enterprise(api: APIClient, authorize, user_enterprise_account: User, jpeg_image: ContentFile):
     authorize(api, user_enterprise_account)
     data = {
         "image": SimpleUploadedFile(
-            "test.jpeg", open("imgstorage/tests/assets/test.jpeg", "rb").read(), content_type="image/jpeg"
+            "test.jpeg", jpeg_image.read(), content_type="image/jpeg"
         ),
     }
     r: Response = api.post(IMAGES_LIST_URL, data)
@@ -59,10 +60,10 @@ def test_create_valid_enterprise(api: APIClient, authorize, user_enterprise_acco
 
 
 @pytest.mark.django_db
-def test_unauthorized(api: APIClient, authorize, user_basic_account: User, basic_user_image):
+def test_unauthorized(api: APIClient, authorize, user_basic_account: User, jpeg_image: ContentFile):
     data = {
         "image": SimpleUploadedFile(
-            "test.jpeg", open("imgstorage/tests/assets/test.jpeg", "rb").read(), content_type="image/jpeg"
+            "test.jpeg", jpeg_image.read(), content_type="image/jpeg"
         ),
     }
     r: Response = api.post(IMAGES_LIST_URL, data)

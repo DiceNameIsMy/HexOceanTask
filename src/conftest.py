@@ -103,13 +103,18 @@ def user_enterprise_account(enterprise_account_tier: AccountTier) -> User:
 
 
 @pytest.fixture
-def basic_user_image(user_basic_account: User, basic_account_tier: AccountTier) -> OriginalImage:
+def jpeg_image() -> ContentFile:
+    return ContentFile(
+        name="test.jpeg",
+        content=open("imgstorage/tests/assets/image.jpeg", "rb").read(),
+    )
+
+
+@pytest.fixture
+def basic_user_image(user_basic_account: User, jpeg_image: ContentFile) -> OriginalImage:
     serialzier = ImageSerializer(
         data={
-            "image": ContentFile(
-                name="test.jpeg",
-                content=open("imgstorage/tests/assets/test.jpeg", "rb").read(),
-            ),
+            "image": jpeg_image,
         },
         context={
             "user": user_basic_account,

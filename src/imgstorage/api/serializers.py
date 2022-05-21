@@ -4,25 +4,19 @@ from PIL import Image
 
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from django.db import transaction
 
 from rest_framework import serializers
 
 from imgstorage.models import AccountTier, OriginalImage, ImageThumbnail
+from imgstorage.services.expiring_link import s3_expiring_link_client
 
 
-class CurrentUserDefault:
-    requires_context = True
+class GetFromSerializerContext(serializers.CurrentUserDefault):
+    def __init__(self, field: str) -> None:
+        self.field = field
 
-    def __call__(self, serializer_field: serializers.Serializer) -> AccountTier | None:
-        try:
-            return serializer_field.context["request"].user
-        except (KeyError, AttributeError):
-            # used in tests to not provide `Request` to context
-            return serializer_field.context.get("user", None)
-
-    def __repr__(self):
-        return "%s()" % self.__class__.__name__
+    def __call__(self, serializer_field: serializers.Serializer):
+        return serializer_field.context[self.field]
 
 
 class ImageThumbnailSerialzier(serializers.ModelSerializer):
@@ -58,7 +52,6 @@ class ImageSerializer(serializers.ModelSerializer):
 
         return ret
 
-    @transaction.atomic
     def create(self, validated_data):
         image: InMemoryUploadedFile = validated_data["image"]
         pil_image: Image.Image = Image.open(image).copy()
@@ -81,3 +74,34 @@ class ImageSerializer(serializers.ModelSerializer):
 
         ImageThumbnail.objects.bulk_create(image_thumbnails)
         return original_image
+
+
+class ExpiringLinkSerializer(serializers.Serializer):
+    # provide `model` to Meta class after inheriting from this class
+
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    image = serializers.HiddenField(default=GetFromSerializerContext("object"))
+    expiration = serializers.IntegerField(min_value=300, max_value=3000)
+    url = serializers.URLField(read_only=True)
+
+    def __init__(self, *args, **kwargs):
+        assert hasattr(self, "Meta"), "You must provide `Meta` class"
+        assert hasattr(self.Meta, "model"), "You must provide `model` to Meta class"
+        super().__init__(*args, **kwargs)
+
+    def create(self, validated_data):
+        validated_data["url"] = s3_expiring_link_client.create_link(
+            url=validated_data["image"].get_image_path(),
+            exp=validated_data["expiration"],
+        )
+        return validated_data
+
+
+class ImageExpiringLinkSerializer(ExpiringLinkSerializer):
+    class Meta:
+        model = OriginalImage
+
+
+class ThumbnailExpiringLinkSerializer(ExpiringLinkSerializer):
+    class Meta:
+        model = ImageThumbnail

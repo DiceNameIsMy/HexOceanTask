@@ -8,7 +8,7 @@ from rest_framework.test import APIClient
 from rest_framework_simplejwt.tokens import AccessToken
 
 from accounts.models import User
-from imgstorage.models import AccountTier, OriginalImage
+from imgstorage.models import AccountTier, ImageThumbnail, OriginalImage
 from imgstorage.api.serializers import ImageSerializer
 
 
@@ -151,3 +151,18 @@ def enterprise_user_image(user_enterprise_account: User, jpeg_image: ContentFile
     )
     serialzier.is_valid(raise_exception=True)
     return serialzier.save()
+
+
+@pytest.fixture
+def enterprise_user_200_thumbnail(enterprise_user_image: OriginalImage) -> ImageThumbnail:
+    return enterprise_user_image.thumbnails.get(resolution=200)
+
+
+@pytest.fixture
+def premium_user_200_thumbnail(premium_user_image: OriginalImage) -> ImageThumbnail:
+    return premium_user_image.thumbnails.get(resolution=200)
+
+
+@pytest.fixture
+def basic_user_thumbnail(basic_user_image: OriginalImage) -> ImageThumbnail:
+    return basic_user_image.thumbnails.get(resolution=200)

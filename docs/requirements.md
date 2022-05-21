@@ -23,18 +23,18 @@ Please focus on code cleanliness and quality even if your code doesn’t meet al
         - [x] a link to a thumbnail that's 200px in height
         - [x] a link to a thumbnail that's 400px in height
         - [x] a link to the originally uploaded image
-    - [ ] users that have "Enterprise" plan get
+    - [x] users that have "Enterprise" plan get
         - [x] a link to a thumbnail that's 200px in height
         - [x] a link to a thumbnail that's 400px in height
         - [x] a link to the originally uploaded image
-        - [ ] ability to fetch a link that expires after a number of seconds (user can specify any number between 300 and 30000)
+        - [x] ability to fetch a link that expires after a number of seconds (user can specify any number between 300 and 30000)
 - [x] apart from the builtin tiers, admins should be able to create arbitrary tiers with the following things configurable:
     - [x] arbitrary thumbnail sizes
     - [x] presence of the link to the originally uploaded file
     - [x] ability to generate expiring links
 - [x] admin UI should be done via django-admin
 - [x] there should be no custom user UI (just browsable API from Django Rest Framework)
-- [ ] remember about:
-    - [ ] tests
-    - [ ] validation
-    - [x] performance considerations (assume there can be a lot of images and the API is frequently accessed)
+- [x] remember about:
+    - [x] tests
+    - [x] validation
+    - [ ] performance considerations (assume there can be a lot of images and the API is frequently accessed)

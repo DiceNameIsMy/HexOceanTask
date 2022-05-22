@@ -11,11 +11,13 @@ class AbstractExpiringLinkClient(ABC):
         pass
 
     @abstractmethod
-    def create_link(self, url: str, exp: int):
+    def create_link(self, url: str, exp: int | None = None) -> str:
         pass
 
 
 class S3ExpiringLinkClient(AbstractExpiringLinkClient):
+    max_expiration = 43200  # 12 hours
+
     def __init__(self, access_key_id: str, secret_access_key: str, bucket_name: str) -> None:
         self.bucket_name = bucket_name
         self.session = boto3.Session(
@@ -29,11 +31,15 @@ class S3ExpiringLinkClient(AbstractExpiringLinkClient):
             config=boto3.session.Config(signature_version="s3v4"),
         )
 
-    def create_link(self, url: str, exp: int) -> str:
+    def create_link(self, url: str, exp: int | None = None) -> str:
+        if exp is not None and (exp > self.max_expiration or exp < 1):
+            raise ValueError(f"Expiration must be between 1 and {self.max_expiration} seconds")
+
+        expiration = exp or self.max_expiration
         return self.client.generate_presigned_url(
             ClientMethod="get_object",
             Params={"Bucket": self.bucket_name, "Key": url},
-            ExpiresIn=exp,
+            ExpiresIn=expiration,
         )
 
     def _get_region_name(self, session: boto3.Session, bucket_name: str) -> str:
@@ -44,7 +50,7 @@ class FakeExpiringLinkClient(AbstractExpiringLinkClient):
     def __init__(self, access_key_id: str, secret_access_key: str, bucket_name: str) -> None:
         pass
 
-    def create_link(self, url: str, exp: int) -> str:
+    def create_link(self, url: str, exp: int | None = None) -> str:
         return f"http://localhost:8000/{url}"
 
 

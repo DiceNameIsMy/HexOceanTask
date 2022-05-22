@@ -5,6 +5,8 @@ from django.contrib.postgres.fields import ArrayField
 
 from django.contrib.auth import get_user_model
 
+from .services.expiring_link import s3_expiring_link_client
+
 
 User = get_user_model()
 
@@ -58,6 +60,10 @@ class OriginalImage(models.Model):
     def get_image_path(self) -> str:
         return get_upload_path(self, self.image.name)
 
+    @property
+    def image_url(self) -> str:
+        return s3_expiring_link_client.create_link(self.get_image_path())
+
 
 class ImageThumbnail(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
@@ -74,3 +80,7 @@ class ImageThumbnail(models.Model):
 
     def get_image_path(self) -> str:
         return get_thumbnail_upload_path(self, self.image.name)
+
+    @property
+    def image_url(self) -> str:
+        return s3_expiring_link_client.create_link(self.get_image_path())

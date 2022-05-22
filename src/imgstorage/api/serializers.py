@@ -23,7 +23,7 @@ class GetFromSerializerContext(serializers.CurrentUserDefault):
 class ImageThumbnailSerialzier(serializers.ModelSerializer):
     class Meta:
         model = ImageThumbnail
-        fields = ("uuid", "image", "resolution")
+        fields = ("uuid", "image_url", "resolution")
 
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -32,7 +32,8 @@ class ImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OriginalImage
-        fields = ("id", "uuid", "image", "user", "thumbnails")
+        fields = ("id", "uuid", "image", "image_url", "user", "thumbnails")
+        extra_kwargs = {"image": {"write_only": True}}
 
     def validate_image(self, image: InMemoryUploadedFile) -> InMemoryUploadedFile:
         if image.name.split(".")[-1] not in settings.ALLOWED_IMAGE_FORMATS:
@@ -43,7 +44,7 @@ class ImageSerializer(serializers.ModelSerializer):
         ret = super().to_representation(instance)
         if not self.context["request"].user.imgstore_tier.allow_lossless_resolution:
             ret.pop("uuid")
-            ret.pop("image")
+            ret.pop("image_url")
 
         return ret
 

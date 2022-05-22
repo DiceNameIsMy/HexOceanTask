@@ -36,7 +36,7 @@ def test_create_valid_premium(api: APIClient, authorize, user_premium_account: U
     r: Response = api.post(IMAGES_LIST_URL, data)
 
     assert r.status_code == 201, r.data
-    assert set(r.data.keys()) == {"id", "uuid", "image", "thumbnails"}
+    assert set(r.data.keys()) == {"id", "uuid", "image_url", "thumbnails"}
     assert len(r.data["thumbnails"]) == 2
 
 
@@ -49,7 +49,7 @@ def test_create_valid_enterprise(api: APIClient, authorize, user_enterprise_acco
     r: Response = api.post(IMAGES_LIST_URL, data)
 
     assert r.status_code == 201, r.data
-    assert set(r.data.keys()) == {"id", "uuid", "image", "thumbnails"}
+    assert set(r.data.keys()) == {"id", "uuid", "image_url", "thumbnails"}
     assert len(r.data["thumbnails"]) == 2
 
 

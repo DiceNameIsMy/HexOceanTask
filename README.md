@@ -2,7 +2,7 @@
 
 ## Overview
 
-Hi! Requirements for this project are located at docs/requirements.md. I've used my own public template for building [DRF API](https://github.com/DiceNameIsMy/proper-DRF-startup); It includes Swagger documentation generator and celery(removed from this project). For dependency management system I use Pipenv because of its scripting capabilities. For authentication method JWT tokens are used.
+Hi! Requirements for this project are located at docs/requirements.md. I've used my own public template for building [DRF API](https://github.com/DiceNameIsMy/proper-DRF-startup); It includes Swagger documentation generator and celery(removed from this project). For dependency management system I use Pipenv because of its scripting capabilities. For authentication JWT tokens are used.
 
 ### I'd like to mention:
 
@@ -12,17 +12,21 @@ Hi! Requirements for this project are located at docs/requirements.md. I've used
 
 ## Run project locally
 
-Copy .env-sample file as .env in the same directory
+1. Copy .env-sample file as .env in the same directory
 
     cp compose/local/.env-sample compose/local/.env
 
-Build and run image via docker-compose:
+Optionally configure AWS S3 buckets in copied .env file
+
+2. Build and run image via docker-compose:
 
     pipenv run compose --build
 
+If you've set USE_AWS_S3_FOR_STATICFILES=True also run `docker-compose exec api ./src/manage.py collecstatic`. It might take 1-2 minutes to upload all staticfiles to S3 bucket
+
 (There is an issue when api might start faster than db and raise an error becouse it couldn't connect to it. In this case just Ctrl+C and rerun the command)
 
-Open http://localhost:8000/docs/swagger/ for an API overview
+3. Open http://localhost:8000/docs/swagger/ for an API overview
 
 ## Setup for development
 

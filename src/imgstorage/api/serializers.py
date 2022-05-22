@@ -35,18 +35,16 @@ class ImageSerializer(serializers.ModelSerializer):
         fields = ("id", "uuid", "image", "image_url", "user", "thumbnails")
         extra_kwargs = {"image": {"write_only": True}}
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not self.context["request"].user.imgstore_tier.allow_lossless_resolution:
+            self.fields.pop("uuid")
+            self.fields.pop("image_url")
+
     def validate_image(self, image: InMemoryUploadedFile) -> InMemoryUploadedFile:
         if image.name.split(".")[-1] not in settings.ALLOWED_IMAGE_FORMATS:
             raise serializers.ValidationError(f"`{image.name}` does not have allowed file extensions.")
         return image
-
-    def to_representation(self, instance):
-        ret = super().to_representation(instance)
-        if not self.context["request"].user.imgstore_tier.allow_lossless_resolution:
-            ret.pop("uuid")
-            ret.pop("image_url")
-
-        return ret
 
     def create(self, validated_data):
         image: InMemoryUploadedFile = validated_data["image"]

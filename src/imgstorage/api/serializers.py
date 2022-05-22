@@ -36,7 +36,7 @@ class ImageSerializer(serializers.ModelSerializer):
 
     def validate_image(self, image: InMemoryUploadedFile) -> InMemoryUploadedFile:
         if image.name.split(".")[-1] not in settings.ALLOWED_IMAGE_FORMATS:
-            raise serializers.ValidationError(f"`{image.name}` is not an image file.")
+            raise serializers.ValidationError(f"`{image.name}` does not have allowed file extensions.")
         return image
 
     def to_representation(self, instance):

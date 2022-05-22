@@ -53,6 +53,7 @@ class OriginalImage(models.Model):
 
     class Meta:
         default_related_name = "images"
+        indexes = [models.Index(fields=["uuid"], name="original_image_uuid_idx")]
 
     def __str__(self) -> str:
         return str(self.uuid)
@@ -74,6 +75,7 @@ class ImageThumbnail(models.Model):
 
     class Meta:
         default_related_name = "thumbnails"
+        indexes = [models.Index(fields=["uuid"], name="image_thumbnail_uuid_idx")]
 
     def __str__(self) -> str:
         return str(self.uuid)
